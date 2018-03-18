@@ -47,15 +47,17 @@ function init() {
      $.ajax({
        type: "POST",
        url: 'https://rsstojson.udacity.com/parseFeed',
-       data: JSON.stringify({url: feedUrl}),
+       data: JSON.stringify({url: feedUrl}),     // prida uvozovky aby to bylo spravne v JS  "{"url":"http://feeds.feedburner.com/udacity-linear-digressions"}"
        contentType:"application/json",
        success: function (result, status){
 
                  var container = $('.feed'),
                      title = $('.header-title'),
-                     entries = result.feed.entries,
+                     entries = result.feed.entries,     // vybere z dane url v DATA objekty a ulozi je do pole ENTRIES
                      entriesLen = entries.length,
-                     entryTemplate = Handlebars.compile($('.tpl-entry').html());
+                     entryTemplate = Handlebars.compile($('.tpl-entry').html());    // funkce ktera prochazi cast kodu kde nahrazuje {{PROMENA}}
+                                                                                    // hodnodnotou kterou najde v danem objektu/poli
+                                                                                    // v tomto kodu je to ENTRIES
 
                  title.html(feedName);   // Set the header text
                  container.empty();      // Empty out all previous entries
@@ -65,7 +67,7 @@ function init() {
                   * entryTemplate (created above using Handlebars) and append
                   * the resulting HTML to the list of entries on the page.
                   */
-                 entries.forEach(function(entry) {
+                 entries.forEach(function(entry) {      // viz popisek u entryTemplate
                      container.append(entryTemplate(entry));
                  });
 
@@ -107,6 +109,7 @@ $(function() {
      */
     allFeeds.forEach(function(feed) {
         feed.id = feedId;
+        // feed je v prvnim kroku {name: "Udacity Blog", url: "http://blog.udacity.com/feed", id: 0}
         feedList.append(feedItemTemplate(feed));
 
         feedId++;
@@ -120,7 +123,7 @@ $(function() {
         var item = $(this);
 
         $('body').addClass('menu-hidden');
-        loadFeed(item.data('id'));
+        loadFeed(item.data('id')); // nacte atribut ID odkazu, ktery je ulozen hmtl v data-id="2"
         return false;
     });
 
