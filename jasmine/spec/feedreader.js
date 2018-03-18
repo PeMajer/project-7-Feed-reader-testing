@@ -49,7 +49,6 @@ $(function() {
 
             });
         });
-
     });
 
 
@@ -70,7 +69,6 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-
         it('change visibility on click', function() {
             const icon = $('.menu-icon-link');
 
@@ -83,6 +81,7 @@ $(function() {
         });
 
     });
+
     /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', function() {
         /* TODO: Write a test that ensures when the loadFeed
@@ -98,15 +97,34 @@ $(function() {
         });
 
         it('contain at least one feed.', function(done){
-            expect($('.entry').length).not.toBe(0);
+            expect($('.feed .entry').length).not.toBe(0);
             done();
         });
     });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
+    describe('New Feed Selection', function() {
+        let feedContentOne,
+            feedContentTwo;
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+
+        beforeEach(function(done) {
+            loadFeed(0, function() {
+                feedContentOne = $('.feed').html();
+                done();
+            });
+        });
+
+        it('change content of feed after loading feed', function(done) {
+            loadFeed(1, function() {
+                feedContentTwo = $('.feed').html();
+                expect(feedContentTwo).not.toBe(feedContentOne);
+                done();
+            });
+        });
+    });
 }());
