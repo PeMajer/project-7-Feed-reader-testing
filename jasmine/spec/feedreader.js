@@ -93,28 +93,27 @@ $(function() {
     * @description this suite is all about new feed selection
     */
     describe('New Feed Selection', function() {
-        let feedContentOne,
-            feedContentTwo;
+        let oldFeed,
+            newFeed;
 
         /**
         * @description loaded first feed and get his content
         */
         beforeEach(function(done) {
             loadFeed(0, function() {
-                feedContentOne = $('.feed').html();
-                done();
+                oldFeed = $('.feed').html();
+                loadFeed(1,function(){
+                    newFeed = $('.feed').html();
+                    done();
+                })
             });
         });
 
         /**
         * @description test that ensures when a new feed is loaded by the loadFeed function that the content actually changes
         */
-        it('change content of feed after loading feed', function(done) {
-            loadFeed(1, function() {
-                feedContentTwo = $('.feed').html();
-                expect(feedContentTwo).not.toBe(feedContentOne);
-                done();
-            });
+        it('change content of feed after loading feed', function() {
+            expect(newFeed).not.toBe(oldFeed);
         });
     });
 }());
